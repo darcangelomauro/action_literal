@@ -28,7 +28,7 @@ class Block
             for(unsigned i=0; i<B.size_RHS(); ++i)
                 RHS.push_back(B.get_RHS(i));
 
-            omega_cleanup();
+            cleanup_omega();
             
             return *this;
         }
@@ -52,12 +52,15 @@ class Block
         // ============== OTHER METHODS
         void make_vanish() { C=0; }
         void add_to_C(const int& n) { C+=n; }
-        void omega_cleanup();
         std::istream& read_block(std::istream&);
+        void tracify();
         // ============== OTHER METHODS
 
 
     private:
+        
+        void cleanup_omega(); //deletes pairs of adjacent identical indices
+        void decimate_omega(); //deletes omega as if they were inside a trace
         
         int C; 
         std::vector<int> OMG; 
@@ -67,8 +70,9 @@ class Block
 };
 
 
-std::ostream& operator<<(std::ostream& out, const Block& B);
+std::ostream& operator<<(std::ostream&, const Block&);
 bool same(const Block&, const Block&);
+void cycle(std::vector<int>&); //puts the vector into the preferred cyclic permutation
 
 
 #endif

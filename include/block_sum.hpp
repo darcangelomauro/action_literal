@@ -57,6 +57,7 @@ class BlockSum
         // ============== OTHER METHODS
         void delete_vanishing();
         void gather();
+        void tracify();
         // ============== OTHER METHODS
 
     private:

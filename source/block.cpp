@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <string>
 #include "block.hpp"
 
@@ -69,14 +70,16 @@ istream& Block::read_block(istream& in)
 }
 
 //Delete adjacent pairs of identical indices
-void Block::omega_cleanup()
+void Block::cleanup_omega()
 {
     if(OMG.size() > 1)
     {
         // First mark pairs to be deleted by assigning to them the value -1
-        for(vector<int>::iterator iter=OMG.begin(); iter!=OMG.end(); ++iter)
+        // (the loop stops at end-1 because the last omega doesn't have
+        // anything to be compared with)
+        for(vector<int>::iterator iter=OMG.begin(); iter!=OMG.end()-1; ++iter)
         {
-            vector<int>::iterator iter1 = ((iter+1 == OMG.end()) ? OMG.begin() : iter+1);
+            vector<int>::iterator iter1 = iter+1;
             if( *iter == *iter1 )
             {
                 // mark
@@ -88,7 +91,7 @@ void Block::omega_cleanup()
                 ++iter;
 
                 // unless doing so causes iter to reach the end
-                if(iter == OMG.end())
+                if(iter == OMG.end()-1)
                     --iter;
             }
             
@@ -106,29 +109,78 @@ void Block::omega_cleanup()
     }
 }
 
-
-
-/*
-bool cyclic_equality(vector<unsigned> A, const vector<unsigned>& B)
+void Block::decimate_omega()
 {
-    vector<unsigned>::size_type sA = A.size();
-    
-    if(sA != B.size())
-        return false;
-    else
+    // Check whether the first cancels with the last
+    // (which cleanup_omega doesn't do)
+    if(OMG.size() > 1)
     {
-        for(unsigned i=0; i<sA; ++i)
+        if( *(OMG.begin()) == *(OMG.end()-1) )
         {
-            if(A == B)
-                return true;
-            else
-                A.rotate(A.begin(), A.begin()+1, A.end());
+            OMG.erase(OMG.end()-1);
+            OMG.erase(OMG.begin());
         }
     }
 
-    return false;
+    // Check if only one or two omegas remain
+    if(OMG.size() == 1 || OMG.size() == 2)
+        make_vanish();
+
+    // Check if only one or two omegas remain
+    // modulo permutations
+    if(is_nonzero())
+    {
+        // create a copy
+        vector<int> OMG_cpy = OMG;
+
+        // sort omegas
+        sort(OMG_cpy.begin(), OMG_cpy.end());
+
+        // remove duplicates
+        OMG_cpy.erase( unique( OMG_cpy.begin(), OMG_cpy.end() ), OMG_cpy.end() );
+
+        // now for each omega count how many there are,
+        // and if they are an even number erase it
+        for(vector<int>::iterator iter=OMG_cpy.begin(); iter!=OMG_cpy.end(); ++iter)
+        {
+            int n = count(OMG.begin(), OMG.end(), *iter) % 2;
+            if(!n)
+            {
+                OMG_cpy.erase(iter);
+                --iter;
+            }
+        }
+
+        // finally count how many elements remain in
+        // the copy and make it vanish if it's 1 or 2
+        if(OMG_cpy.size() == 1 || OMG_cpy.size() == 2)
+            make_vanish();
+    }
 }
-*/
+
+void cycle(vector<int>& vec)
+{
+    vector<int> vec_cpy = vec;
+    for(unsigned i=0; i<vec_cpy.size(); ++i)
+    {
+        rotate(vec_cpy.begin(), vec_cpy.begin()+1, vec_cpy.end());
+        if(vec_cpy < vec)
+            vec = vec_cpy;
+    }
+}
+
+
+void Block::tracify()
+{
+    decimate_omega();
+    cycle(OMG);
+    cycle(LHS);
+    reverse(RHS.begin(), RHS.end());
+    cycle(RHS);
+    if(RHS<LHS)
+        RHS.swap(LHS);
+}
+
 
 bool same(const Block& B1, const Block& B2)
 {

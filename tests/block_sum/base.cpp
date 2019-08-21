@@ -43,7 +43,13 @@ int main()
 
     cout << BS5 << endl;
 
-    cout << BS5*BS5 << endl;
+    BlockSum BS6 = BS5*BS5;
+
+    cout << BS6 << endl;
+
+    BS6.tracify();
+
+    cout << BS6 << endl;
 
 
 

@@ -74,6 +74,12 @@ void BlockSum::gather()
     delete_vanishing();
 }
 
+void BlockSum::tracify()
+{
+    for(vector<Block>::iterator iter=B.begin(); iter!=B.end(); ++iter)
+        (*iter).tracify();
+    gather();
+}
 
 
 

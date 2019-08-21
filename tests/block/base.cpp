@@ -40,6 +40,15 @@ int main()
     cout << B4 << endl;
     cout << B1*B2*B4 << endl;
 
+    B1.tracify();
+    B2.tracify();
+    B3.tracify();
+    B4.tracify();
 
+    cout << B1 << endl;
+    cout << B2 << endl;
+    cout << B3 << endl;
+    cout << B4 << endl;
+    
     return 0;
 }
