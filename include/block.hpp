@@ -2,7 +2,10 @@
 #define BLOCK_HPP
 
 #include <vector>
+#include <algorithm>
+#include <string>
 #include <iostream>
+#include "trmat.hpp"
 
 class Block
 {
@@ -38,9 +41,9 @@ class Block
 
         // ============== GET METHODS
         int get_C() const { return C; }
-        int get_OMG(unsigned i) const { return OMG[i]; }
-        int get_LHS(unsigned i) const { return LHS[i]; }
-        int get_RHS(unsigned i) const { return RHS[i]; }
+        int get_OMG(const unsigned& i) const { return OMG[i]; }
+        int get_LHS(const unsigned& i) const { return LHS[i]; }
+        int get_RHS(const unsigned& i) const { return RHS[i]; }
         unsigned size_OMG() const { return OMG.size(); }
         unsigned size_LHS() const { return LHS.size(); }
         unsigned size_RHS() const { return RHS.size(); }
@@ -50,10 +53,13 @@ class Block
 
 
         // ============== OTHER METHODS
+        void cycle_LHS() { std::rotate(LHS.begin(), LHS.begin()+1, LHS.end()); }
+        void cycle_RHS() { std::rotate(RHS.begin(), RHS.begin()+1, RHS.end()); }
         void make_vanish() { C=0; }
         void add_to_C(const int& n) { C+=n; }
         std::istream& read_block(std::istream&);
         void tracify();
+        TrMat take_derivative(const int&, const std::string&) const;
         // ============== OTHER METHODS
 
 

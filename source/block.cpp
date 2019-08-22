@@ -181,6 +181,51 @@ void Block::tracify()
         RHS.swap(LHS);
 }
 
+TrMat Block::take_derivative(const int& k, const string& side) const
+{
+    // If the first index of the chosen side
+    // matches the index to be derived,
+    // return the corresponding TrMat
+    if(side == "LHS" && LHS.size() && *(LHS.begin())==k)
+    {
+        if(LHS.size() == 1)
+        {
+            vector<int> empty;
+            TrMat TM(C, OMG, RHS, empty); 
+            return TM;
+        }
+        else
+        {
+            vector<int> mat(LHS.begin()+1, LHS.end());
+            TrMat TM(C, OMG, RHS, mat);
+            return TM;
+        }
+    }
+    if(side == "RHS" && RHS.size() && *(RHS.begin())==k)
+    {
+        if(RHS.size() == 1)
+        {
+            vector<int> empty;
+            TrMat TM(C, OMG, LHS, empty); 
+            return TM;
+        }
+        else
+        {
+            vector<int> mat(RHS.begin()+1, RHS.end());
+            TrMat TM(C, OMG, LHS, mat);
+            return TM;
+        }
+    }
+    
+    // In all other cases return a vanishing TrMat
+    int c = 0;
+    vector<int> empty;
+    TrMat TM(c, empty, empty, empty);
+    return TM;
+}
+
+
+
 
 bool same(const Block& B1, const Block& B2)
 {

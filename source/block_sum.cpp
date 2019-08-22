@@ -53,6 +53,14 @@ void BlockSum::delete_vanishing()
     }
 }
 
+Derivative BlockSum::take_derivative(const int& k) const
+{
+    Derivative D;
+    for(vector<Block>::const_iterator iter=B.begin(); iter!=B.end(); ++iter)
+        D += Derivative(*iter, k);
+
+    return D;
+}
 
 void BlockSum::gather()
 {

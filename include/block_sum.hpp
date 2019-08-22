@@ -1,9 +1,10 @@
 #ifndef BLOCK_SUM_HPP
-#define BLOC_SUM_HPP
+#define BLOCK_SUM_HPP
 
 #include <vector>
 #include <iostream>
 #include "block.hpp"
+#include "derivative.hpp"
 
 class BlockSum
 {
@@ -49,12 +50,13 @@ class BlockSum
 
 
         // ============== GET METHODS
-        Block get_B(unsigned i) const { return B[i]; }
+        Block get_B(const unsigned& i) const { return B[i]; }
         unsigned size() const { return B.size(); }
         // ============== GET METHODS
 
 
         // ============== OTHER METHODS
+        Derivative take_derivative(const int&) const;
         void delete_vanishing();
         void gather();
         void tracify();
