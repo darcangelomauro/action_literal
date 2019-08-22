@@ -15,6 +15,9 @@ class TrMat
         ~TrMat(){}
         // ============== CONSTRUCTORS, ASSIGNMENT, DESTRUCTOR
 
+        // ============== OPERATORS
+        TrMat& operator*=(const int& n) { C *= n; return *this; }
+        // ============== OPERATORS
 
         // ============== GET METHODS
         int get_C() const { return C; }
@@ -30,6 +33,8 @@ class TrMat
 
 
         // ============== OTHER METHODS
+        TrMat& t(); 
+        TrMat& T();
         void make_vanish() { C=0; }
         void add_to_C(const int& n) { C+=n; }
         // ============== OTHER METHODS

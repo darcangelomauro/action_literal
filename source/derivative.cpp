@@ -56,6 +56,21 @@ ostream& operator<<(ostream& out, const Derivative& D)
     return out;
 }
 
+Derivative& Derivative::t()
+{
+    for(vector<TrMat>::iterator iter=TM.begin(); iter!=TM.end(); ++iter)
+        (*iter).t();
+
+    return *this;
+}
+
+Derivative& Derivative::T()
+{
+    for(vector<TrMat>::iterator iter=TM.begin(); iter!=TM.end(); ++iter)
+        (*iter).T();
+
+    return *this;
+}
 
 void Derivative::delete_vanishing()
 {

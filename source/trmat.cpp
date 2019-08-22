@@ -35,6 +35,23 @@ TrMat& TrMat::operator=(const TrMat& M)
     return *this;
 }
 
+TrMat& TrMat::t()
+{
+    reverse(TR.begin(), TR.end());
+    reverse(MAT.begin(), MAT.end());
+
+    return *this;
+}
+
+TrMat& TrMat::T()
+{
+    reverse(OMG.begin(), OMG.end());
+    reverse(TR.begin(), TR.end());
+    reverse(MAT.begin(), MAT.end());
+
+    return *this;
+}
+
 bool same(const TrMat& M1, const TrMat& M2)
 {
     if(M1.size_TR() != M2.size_TR())

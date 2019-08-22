@@ -12,6 +12,7 @@ class Derivative
 
         // ============== CONSTRUCTORS, ASSIGNMENT, DESTRUCTOR
         Derivative(){}
+        Derivative(const std::vector<TrMat>& v): TM(v) {}
         Derivative(const Block&, const int&);
         Derivative(const Derivative& D);
         Derivative& operator=(const Derivative& D);
@@ -20,6 +21,13 @@ class Derivative
 
 
         // ============== OPERATORS
+        Derivative& operator*=(const int& n)
+        {
+            for(std::vector<TrMat>::iterator iter=TM.begin(); iter!=TM.end(); ++iter)
+                (*iter) *= n;
+
+            return *this;
+        }
         Derivative& operator+=(const Derivative& D)
         {
             for(unsigned i=0; i<D.size(); ++i)
@@ -40,6 +48,8 @@ class Derivative
 
 
         // ============== OTHER METHODS
+        Derivative& t();
+        Derivative& T();
         void delete_vanishing();
         void gather();
         // ============== OTHER METHODS
