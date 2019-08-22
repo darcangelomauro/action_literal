@@ -28,6 +28,37 @@ BlockSum& BlockSum::operator=(const BlockSum& BS)
     return *this;
 }
 
+istream& BlockSum::read_block_sum(istream& in)
+{
+    if(in)
+    {
+        int idx;
+        string sgn;
+        while(in >> idx >> sgn)
+        {
+            if(sgn=="+")
+            {
+                Block B1(1, idx, 1);
+                Block B2(1, idx, 0);
+                B.push_back(B1);
+                B.push_back(B2);
+            }
+            else if(sgn=="-")
+            {
+                Block B1(1, idx, 1);
+                Block B2(-1, idx, 0);
+                B.push_back(B1);
+                B.push_back(B2);
+            }
+        }
+         
+        // clear input stream state
+        in.clear();
+    }
+
+    return in;
+}
+
 ostream& operator<<(ostream& out, const BlockSum& BS)
 {
     for(unsigned i=0; i<BS.size(); ++i)

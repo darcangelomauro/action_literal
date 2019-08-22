@@ -13,6 +13,7 @@ class BlockSum
         // ============== CONSTRUCTORS, ASSIGNMENT, DESTRUCTOR
         BlockSum(){}
         BlockSum(const Block& B1);
+        BlockSum(std::istream& in) { read_block_sum(in); }
         BlockSum(const BlockSum& BS);
         BlockSum& operator=(const BlockSum& BS);
         ~BlockSum(){}
@@ -56,6 +57,7 @@ class BlockSum
 
 
         // ============== OTHER METHODS
+        std::istream& read_block_sum(std::istream&);
         Derivative take_derivative(const int&) const;
         void delete_vanishing();
         void gather();

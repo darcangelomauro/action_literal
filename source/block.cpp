@@ -7,6 +7,15 @@
 using namespace std;
 
 // Constructors
+Block::Block(const int& c, const int& idx, const int& pos): C(c)
+{
+    OMG.push_back(idx);
+    if(pos)
+        LHS.push_back(idx);
+    else
+        RHS.push_back(idx);
+}
+
 Block::Block(const Block& B)
 {
     C = B.get_C();

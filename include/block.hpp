@@ -13,6 +13,7 @@ class Block
 
         // ============== CONSTRUCTORS, ASSIGNMENT, DESTRUCTOR
         Block(): C(1) {}
+        Block(const int&, const int&, const int&);
         Block(std::istream& in): C(1) { read_block(in); }
         Block(const Block&);
         Block& operator=(const Block&);
